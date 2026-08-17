@@ -7,6 +7,17 @@
         "data": {
           "host": "IP address / hostname",
           "port": "Agent port"
+        },
+        "sections": {
+          "advanced": {
+            "name": "Advanced",
+            "data": {
+              "count_spindle": "Count spindle as an extra tool slot (+1)"
+            },
+            "data_description": {
+              "count_spindle": "When enabled, the Tool magazine denominator gains a +1 for the spindle slot (e.g. 31/30+1). The spindle tool is always counted either way."
+            }
+          }
         }
       }
     },
@@ -15,6 +26,19 @@
     },
     "abort": {
       "already_configured": "This machine is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Haas CNC Monitor options",
+        "data": {
+          "count_spindle": "Count spindle as an extra tool slot (+1)"
+        },
+        "data_description": {
+          "count_spindle": "When enabled, the Tool magazine denominator gains a +1 for the spindle slot (e.g. 31/30+1). The spindle tool is always counted either way."
+        }
+      }
     }
   },
   "entity": {
@@ -32,7 +56,8 @@
       "last_cycle": { "name": "Last cycle time" },
       "machine_runtime": { "name": "Machine runtime" },
       "spindle_time": { "name": "Spindle time" },
-      "active_alarm": { "name": "Active alarm" }
+      "active_alarm": { "name": "Active alarm" },
+      "tool_magazine": { "name": "Tool magazine" }
     },
     "binary_sensor": {
       "availability": { "name": "Availability" },

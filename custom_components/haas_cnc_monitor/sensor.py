@@ -31,6 +31,8 @@ from .const import (
     DID_MACHINE_RUNTIME,
     DID_MODE,
     DID_PART_COUNT,
+    DID_POCKET,
+    DID_POCKET_CAPACITY,
     DID_PROGRAM,
     DID_RAPID_OVERRIDE,
     DID_SPINDLE_OVERRIDE,
@@ -38,6 +40,8 @@ from .const import (
     DID_SPINDLE_TIME,
     DID_THIS_CYCLE,
     DOMAIN,
+    POCKET_EMPTY,
+    POCKET_SPINDLE,
     UNAVAILABLE,
 )
 from .coordinator import HaasMTConnectCoordinator
@@ -201,7 +205,24 @@ async def async_setup_entry(
 ) -> None:
     """Set up sensors."""
     coordinator = entry.runtime_data
-    async_add_entities(HaasSensor(coordinator, entry, desc) for desc in SENSORS)
+    entities: list[SensorEntity] = [
+        HaasSensor(coordinator, entry, desc) for desc in SENSORS
+    ]
+    entities.append(HaasToolMagazineSensor(coordinator, entry))
+    async_add_entities(entities)
+
+
+def _parse_pockets(raw: str) -> tuple[int, bool]:
+    """Return tools loaded in the magazine"""
+    loaded = 0
+    spindle = False
+    for entry in raw.split(","):
+        value = entry.strip()
+        if value == POCKET_SPINDLE:
+            spindle = True
+        elif value and value != POCKET_EMPTY:
+            loaded += 1
+    return loaded, spindle
 
 
 class HaasSensor(CoordinatorEntity[HaasMTConnectCoordinator], SensorEntity):
@@ -229,3 +250,65 @@ class HaasSensor(CoordinatorEntity[HaasMTConnectCoordinator], SensorEntity):
     @property
     def native_value(self) -> str | float | None:
         return self.entity_description.value_fn(self.coordinator.data)
+
+
+class HaasToolMagazineSensor(
+    CoordinatorEntity[HaasMTConnectCoordinator], SensorEntity
+):
+    """Tool magazine load, e.g. "24/50" (or "24/50+1" counting the spindle)."""
+
+    _attr_has_entity_name = True
+    _attr_name = "Tool magazine"
+    _attr_icon = "mdi:toolbox-outline"
+
+    def __init__(
+        self,
+        coordinator: HaasMTConnectCoordinator,
+        entry: HaasConfigEntry,
+    ) -> None:
+        super().__init__(coordinator)
+        self._attr_unique_id = f"{entry.unique_id}_tool_magazine"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(DOMAIN, entry.unique_id)},
+            name=entry.title,
+            manufacturer="Haas Automation",
+        )
+
+    def _parts(self) -> tuple[int, int, bool] | None:
+        """Return (loaded, capacity, spindle_present) or None if unavailable."""
+        data = self.coordinator.data
+        if not data:
+            return None
+        raw = data.values.get(DID_POCKET)
+        cap = data.values.get(DID_POCKET_CAPACITY)
+        if not raw or cap in (None, UNAVAILABLE):
+            return None
+        try:
+            capacity = int(float(cap))
+        except ValueError:
+            return None
+        loaded, spindle = _parse_pockets(raw)
+        return loaded, capacity, spindle
+
+    @property
+    def native_value(self) -> str | None:
+        parts = self._parts()
+        if parts is None:
+            return None
+        loaded, capacity, spindle = parts
+        total = loaded + (1 if spindle else 0)
+        base = f"{total}/{capacity}"
+        return f"{base}+1" if self.coordinator.count_spindle else base
+
+    @property
+    def extra_state_attributes(self) -> dict[str, object] | None:
+        parts = self._parts()
+        if parts is None:
+            return None
+        loaded, capacity, spindle = parts
+        return {
+            "magazine_loaded": loaded + (1 if spindle else 0),
+            "magazine_capacity": capacity,
+            "spindle_tool_loaded": spindle,
+            "count_spindle": self.coordinator.count_spindle,
+        }

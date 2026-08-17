@@ -7,9 +7,12 @@ DOMAIN = "haas_cnc_monitor"
 CONF_HOST = "host"
 CONF_PORT = "port"
 CONF_SCAN_INTERVAL = "scan_interval"
+CONF_ADVANCED = "advanced"
+CONF_COUNT_SPINDLE = "count_spindle"  # add the spindle as an extra "+1" slot
 
 DEFAULT_PORT = 8082
 DEFAULT_SCAN_INTERVAL = 10  # seconds
+DEFAULT_COUNT_SPINDLE = True
 
 # MTConnect uses this sentinel when a DataItem has no valid reading.
 UNAVAILABLE = "UNAVAILABLE"
@@ -31,6 +34,13 @@ DID_CYCLE_REMAINING = "cyremtim"  # estimated remaining (s)
 DID_MACHINE_RUNTIME = "machineruntime"  # cumulative powered time
 DID_SPINDLE_TIME = "spindletime"        # cumulative spindle-on time
 DID_LOOPS_REMAINING = "lpremain"
+
+# Tool magazine. `pockets` (name STATION) is the magazine size. `pocket` is a
+# CSV where each entry is a tool's physical pocket: -101 = empty, 0 = spindle.
+DID_POCKET = "pocket"
+DID_POCKET_CAPACITY = "pockets"
+POCKET_EMPTY = "-101"
+POCKET_SPINDLE = "0"
 
 # The single overall machine Condition (SYSTEM category).
 DID_MACHINE_CONDITION = "mcond"
