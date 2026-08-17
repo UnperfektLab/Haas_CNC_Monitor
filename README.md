@@ -1,11 +1,11 @@
-# Haas CNC Monitor — Home Assistant integration
+# Haas CNC Monitor - Home Assistant integration
 
 > Unofficial project, not affiliated with Haas Automation, Inc. "Haas" is used
 > descriptively (compatibility only).
 
 A Home Assistant custom integration that polls the MTConnect agent built into
-Haas **NGC** controls and exposes a curated set of entities — run state, alarms,
-production and key parameters — instead of every single DataItem.
+Haas **NGC** controls and exposes a set of entities (run state, alarms,
+production and key parameters).
 
 ## Install via HACS (recommended)
 
@@ -25,8 +25,6 @@ Copy the folder `custom_components/haas_cnc_monitor/` into your HA config
 (`<config>/custom_components/haas_cnc_monitor/`), restart Home Assistant, then
 add the integration as above.
 </details>
-
-> Add each machine separately (by its IP).
 
 ## Machine-side setup (NGC)
 
