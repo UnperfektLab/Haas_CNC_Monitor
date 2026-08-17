@@ -100,6 +100,7 @@ SENSORS: tuple[HaasSensorDescription, ...] = (
         name="Part count",
         icon="mdi:counter",
         state_class=SensorStateClass.TOTAL_INCREASING,
+        suggested_display_precision=0,
         value_fn=lambda d: _num(d, DID_PART_COUNT),
     ),
     HaasSensorDescription(
@@ -107,6 +108,7 @@ SENSORS: tuple[HaasSensorDescription, ...] = (
         name="Spindle speed",
         native_unit_of_measurement=REVOLUTIONS_PER_MINUTE,
         state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=0,
         value_fn=lambda d: _num(d, DID_SPINDLE_SPEED),
     ),
     HaasSensorDescription(
@@ -114,6 +116,7 @@ SENSORS: tuple[HaasSensorDescription, ...] = (
         name="Spindle override",
         native_unit_of_measurement=PERCENTAGE,
         icon="mdi:percent-outline",
+        suggested_display_precision=0,
         value_fn=lambda d: _num(d, DID_SPINDLE_OVERRIDE),
     ),
     HaasSensorDescription(
@@ -121,6 +124,7 @@ SENSORS: tuple[HaasSensorDescription, ...] = (
         name="Feed override",
         native_unit_of_measurement=PERCENTAGE,
         icon="mdi:percent-outline",
+        suggested_display_precision=0,
         value_fn=lambda d: _num(d, DID_FEED_OVERRIDE),
     ),
     HaasSensorDescription(
@@ -128,6 +132,7 @@ SENSORS: tuple[HaasSensorDescription, ...] = (
         name="Rapid override",
         native_unit_of_measurement=PERCENTAGE,
         icon="mdi:percent-outline",
+        suggested_display_precision=0,
         value_fn=lambda d: _num(d, DID_RAPID_OVERRIDE),
     ),
     HaasSensorDescription(
@@ -135,6 +140,8 @@ SENSORS: tuple[HaasSensorDescription, ...] = (
         name="Current cycle time",
         device_class=SensorDeviceClass.DURATION,
         native_unit_of_measurement=UnitOfTime.SECONDS,
+        suggested_unit_of_measurement=UnitOfTime.HOURS,
+        suggested_display_precision=1,
         value_fn=lambda d: _num(d, DID_THIS_CYCLE),
     ),
     HaasSensorDescription(
@@ -142,6 +149,8 @@ SENSORS: tuple[HaasSensorDescription, ...] = (
         name="Cycle remaining",
         device_class=SensorDeviceClass.DURATION,
         native_unit_of_measurement=UnitOfTime.SECONDS,
+        suggested_unit_of_measurement=UnitOfTime.HOURS,
+        suggested_display_precision=1,
         value_fn=lambda d: _num(d, DID_CYCLE_REMAINING),
     ),
     HaasSensorDescription(
@@ -149,6 +158,8 @@ SENSORS: tuple[HaasSensorDescription, ...] = (
         name="Last cycle time",
         device_class=SensorDeviceClass.DURATION,
         native_unit_of_measurement=UnitOfTime.SECONDS,
+        suggested_unit_of_measurement=UnitOfTime.HOURS,
+        suggested_display_precision=1,
         entity_category=EntityCategory.DIAGNOSTIC,
         value_fn=lambda d: _num(d, DID_LAST_CYCLE),
     ),
@@ -157,6 +168,8 @@ SENSORS: tuple[HaasSensorDescription, ...] = (
         name="Machine runtime",
         device_class=SensorDeviceClass.DURATION,
         native_unit_of_measurement=UnitOfTime.SECONDS,
+        suggested_unit_of_measurement=UnitOfTime.HOURS,
+        suggested_display_precision=1,
         state_class=SensorStateClass.TOTAL_INCREASING,
         entity_category=EntityCategory.DIAGNOSTIC,
         value_fn=lambda d: _num(d, DID_MACHINE_RUNTIME),
@@ -166,6 +179,8 @@ SENSORS: tuple[HaasSensorDescription, ...] = (
         name="Spindle time",
         device_class=SensorDeviceClass.DURATION,
         native_unit_of_measurement=UnitOfTime.SECONDS,
+        suggested_unit_of_measurement=UnitOfTime.HOURS,
+        suggested_display_precision=1,
         state_class=SensorStateClass.TOTAL_INCREASING,
         entity_category=EntityCategory.DIAGNOSTIC,
         value_fn=lambda d: _num(d, DID_SPINDLE_TIME),

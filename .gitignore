@@ -18,3 +18,6 @@ Thumbs.db
 # Local machine data dumps
 *.xml
 !tests/fixtures/*.xml
+
+# Local dev tools (not published)
+tools/
