@@ -1,0 +1,12 @@
+{
+  "domain": "haas_cnc_monitor",
+  "name": "Haas CNC Monitor",
+  "codeowners": ["@UnperfektLab"],
+  "config_flow": true,
+  "documentation": "https://github.com/UnperfektLab/Haas_CNC_Monitor",
+  "issue_tracker": "https://github.com/UnperfektLab/Haas_CNC_Monitor/issues",
+  "integration_type": "device",
+  "iot_class": "local_polling",
+  "requirements": [],
+  "version": "0.1.0"
+}

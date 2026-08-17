@@ -1,0 +1,43 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Haas CNC Monitor",
+        "description": "Connect to the machine's built-in MTConnect agent (NGC control).",
+        "data": {
+          "host": "IP address / hostname",
+          "port": "Agent port"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Could not reach the MTConnect agent. Check the IP, that the wired network is enabled."
+    },
+    "abort": {
+      "already_configured": "This machine is already configured."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "execution": { "name": "Execution" },
+      "controller_mode": { "name": "Controller mode" },
+      "program": { "name": "Program" },
+      "part_count": { "name": "Part count" },
+      "spindle_speed": { "name": "Spindle speed" },
+      "spindle_override": { "name": "Spindle override" },
+      "feed_override": { "name": "Feed override" },
+      "rapid_override": { "name": "Rapid override" },
+      "this_cycle": { "name": "Current cycle time" },
+      "cycle_remaining": { "name": "Cycle remaining" },
+      "last_cycle": { "name": "Last cycle time" },
+      "machine_runtime": { "name": "Machine runtime" },
+      "spindle_time": { "name": "Spindle time" },
+      "active_alarm": { "name": "Active alarm" }
+    },
+    "binary_sensor": {
+      "availability": { "name": "Availability" },
+      "running": { "name": "Running" },
+      "problem": { "name": "Problem" }
+    }
+  }
+}
